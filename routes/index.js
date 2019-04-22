@@ -45,7 +45,10 @@ router.get('/admin', isLogged, checkRole('ADMIN'), (req, res, next) => {
   res.send('Tienes poderes de estar aqui')
 })
 
-router.get('/auth/facebook', passport.authenticate('facebook'))
+router.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', { scope: ['email'] })
+)
 
 router.get(
   '/auth/facebook/callback',

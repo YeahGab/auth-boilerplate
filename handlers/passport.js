@@ -24,13 +24,22 @@ passport.use(
       profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(accessToken, refreshToken, profile, cb) {
-      console.log(profile)
-      User.create({ ...profile })
-        .then(user => {
-          cb(null, user)
+      User.findOne({ email: profile.emails[0].value })
+        .then(doc => {
+          if (!doc) {
+            User.create({ email: profile.emails[0].value })
+              .then(user => {
+                cb(null, user)
+              })
+              .catch(err => {
+                cb(err, null)
+              })
+          } else {
+            cb(null, doc)
+          }
         })
         .catch(err => {
-          cb(err, user)
+          cb(err, null)
         })
     }
   )
