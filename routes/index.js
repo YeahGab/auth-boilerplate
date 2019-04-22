@@ -45,4 +45,14 @@ router.get('/admin', isLogged, checkRole('ADMIN'), (req, res, next) => {
   res.send('Tienes poderes de estar aqui')
 })
 
+router.get('/auth/facebook', passport.authenticate('facebook'))
+
+router.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook'),
+  (req, res, next) => {
+    res.send('awiwi')
+  }
+)
+
 module.exports = router
